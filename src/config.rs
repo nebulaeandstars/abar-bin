@@ -3,6 +3,16 @@ use std::time::Duration;
 use abar::{StatusBar, StatusBlock};
 
 pub fn bar() -> StatusBar {
+    // All fields are optional; default refresh rate is 1hz
+    StatusBar::new()
+        .blocks(blocks())
+        .refresh_rate(Duration::from_millis(500))
+        .delimiter(" | ")
+        .left_buffer(" >>> ")
+        .right_buffer(" <<< ")
+}
+
+fn blocks() -> Vec<StatusBlock> {
     use crate::utils::run;
 
     let ip = StatusBlock::new()
@@ -32,7 +42,7 @@ pub fn bar() -> StatusBar {
     let volume = StatusBlock::new()
         .name("volume")
         .command(&|| run("sb-volume"))
-        .poll_interval(Duration::from_secs(1));
+        .poll_interval(Duration::from_millis(500));
 
     let power = StatusBlock::new()
         .name("power")
@@ -49,15 +59,7 @@ pub fn bar() -> StatusBar {
         .command(&|| run("sb-clock"))
         .poll_interval(Duration::from_secs(15));
 
-    let blocks = vec![
+    vec![
         ip, mail, packages, weather, moon, volume, power, internet, clock,
-    ];
-
-    // All fields are optional; default refresh rate is 1hz
-    StatusBar::new()
-        .blocks(blocks)
-        .refresh_rate(Duration::from_millis(500))
-        .delimiter(" | ")
-        .left_buffer(" >>> ")
-        .right_buffer(" <<< ")
+    ]
 }
