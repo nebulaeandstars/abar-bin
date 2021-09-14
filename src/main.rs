@@ -6,6 +6,12 @@ fn main() {
     let mut statusbar = config::bar();
     let mut status = statusbar.to_string();
 
+    std::process::Command::new("xsetroot")
+        .arg("-name")
+        .arg("loading...")
+        .output()
+        .unwrap();
+
     loop {
         let new_status = statusbar.to_string();
 

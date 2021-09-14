@@ -2,6 +2,8 @@ use std::time::Duration;
 
 use abar::{StatusBar, StatusBlock};
 
+use crate::blocks;
+
 pub fn bar() -> StatusBar {
     // All fields are optional; default refresh rate is 1hz
     StatusBar::new()
@@ -31,7 +33,7 @@ fn blocks() -> Vec<StatusBlock> {
 
     let weather = StatusBlock::new()
         .name("weather")
-        .command(&|| run("sb-forecast"))
+        .command(&|| blocks::weather())
         .poll_interval(Duration::from_secs(60 * 60));
 
     let moon = StatusBlock::new()
