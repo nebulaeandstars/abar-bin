@@ -10,8 +10,8 @@ pub fn bar() -> StatusBar {
         .blocks(blocks())
         .refresh_rate(Duration::from_millis(500))
         .delimiter(" | ")
-        .left_buffer(" >>> ")
-        .right_buffer(" <<< ")
+        .left_buffer(" | ")
+        .right_buffer(" | ")
 }
 
 fn blocks() -> Vec<StatusBlock> {
