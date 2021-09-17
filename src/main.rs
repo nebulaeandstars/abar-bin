@@ -6,11 +6,10 @@ fn main() {
     let mut statusbar = config::bar();
     let mut status = statusbar.to_string();
 
-    std::process::Command::new("xsetroot")
-        .arg("-name")
-        .arg("loading...")
-        .output()
-        .unwrap();
+    // spin up the worker threads
+    for _ in 1..config::NUM_THREADS {
+        statusbar.spawn_worker();
+    }
 
     loop {
         let new_status = statusbar.to_string();
