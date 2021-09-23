@@ -1,3 +1,5 @@
+mod moon;
 mod weather;
 
-pub use weather::weather;
+pub use moon::*;
+pub use weather::*;

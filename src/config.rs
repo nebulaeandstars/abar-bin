@@ -40,13 +40,13 @@ fn blocks() -> Vec<StatusBlock> {
 
     let weather = StatusBlock::new()
         .name("weather")
-        .command(Arc::new(|| blocks::weather()))
+        .command(Arc::new(blocks::weather))
         .poll_interval(Duration::from_secs(60 * 60))
         .update_in_background(true);
 
     let moon = StatusBlock::new()
         .name("moon")
-        .command(Arc::new(|| run("sb-moonphase")))
+        .command(Arc::new(blocks::moon))
         .poll_interval(Duration::from_secs(60 * 60 * 24))
         .update_in_background(true);
 
