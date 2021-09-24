@@ -67,7 +67,7 @@ fn blocks() -> Vec<StatusBlock> {
 
     let clock = StatusBlock::new()
         .name("internet")
-        .command(Arc::new(|| run("sb-clock")))
+        .command(Arc::new(blocks::clock))
         .poll_interval(Duration::from_secs(15));
 
     vec![
