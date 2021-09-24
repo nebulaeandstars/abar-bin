@@ -26,17 +26,21 @@ pub fn weather() -> String {
 /// return <temp>°.
 fn get_temp_string(report: &serde_json::Value) -> String {
     let weather = &report["weather"];
-    let current_condition = &report["current_condition"];
+    // let current_condition = &report["current_condition"];
 
     let max = parse_json_isize(&weather[0]["maxtempC"]);
     let min = parse_json_isize(&weather[0]["mintempC"]);
-    let temp = parse_json_isize(&current_condition[0]["temp_C"]);
+    // let temp = parse_json_isize(&current_condition[0]["temp_C"]);
 
-    if (temp - min).abs() < (temp - max).abs() {
-        format!("{}°", temp)
-    } else {
-        format!("{}°", temp)
-    }
+    // if (temp - min).abs() < (temp - max).abs() {
+    //     format!("{}°", temp)
+    // } else {
+    //     format!("{}°", temp)
+    // }
+
+    // temporary, as the actual functionality is a bit more complicated than
+    // anticipated
+    format!("{}{}", min, max)
 }
 
 /// Returns the user's current location.
