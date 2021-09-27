@@ -6,7 +6,7 @@ pub fn clock() -> String {
     let now: DateTime<Local> = Local::now();
 
     format!(
-        "{:#02}/{:#02}/{:#04} {:#02}:{}{}",
+        "{:#02}/{:#02}/{:#04} {:#02}:{:#02}{:#02}",
         now.day(),
         now.month(),
         now.year(),
