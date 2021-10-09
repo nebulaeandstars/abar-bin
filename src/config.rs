@@ -11,7 +11,8 @@ use crate::blocks;
 /// concurrency.
 pub const NUM_THREADS: u8 = 1;
 
-pub fn bar() -> StatusBar {
+pub fn bar() -> StatusBar
+{
     // All fields are optional; default refresh rate is 1hz
     StatusBar::new()
         .blocks(blocks())
@@ -19,9 +20,11 @@ pub fn bar() -> StatusBar {
         .delimiter(" | ")
         .left_buffer(" | ")
         .right_buffer(" | ")
+        .hide_empty_modules(true)
 }
 
-fn blocks() -> Vec<StatusBlock> {
+fn blocks() -> Vec<StatusBlock>
+{
     use crate::utils::run;
 
     let ip = StatusBlock::new()
@@ -36,7 +39,7 @@ fn blocks() -> Vec<StatusBlock> {
     let packages = StatusBlock::new()
         .name("packages")
         .command(Arc::new(|| run("sb-pacpackages")))
-        .poll_interval(Duration::from_secs(60 * 30));
+        .poll_interval(Duration::from_secs(1));
 
     let weather = StatusBlock::new()
         .name("weather")
@@ -47,8 +50,7 @@ fn blocks() -> Vec<StatusBlock> {
     let moon = StatusBlock::new()
         .name("moon")
         .command(Arc::new(blocks::moon))
-        .poll_interval(Duration::from_secs(60 * 60 * 24))
-        .update_in_background(true);
+        .poll_interval(Duration::from_secs(60 * 60));
 
     let volume = StatusBlock::new()
         .name("volume")
@@ -63,14 +65,12 @@ fn blocks() -> Vec<StatusBlock> {
     let internet = StatusBlock::new()
         .name("internet")
         .command(Arc::new(|| run("sb-internet")))
-        .poll_interval(Duration::from_secs(10));
+        .poll_interval(Duration::from_secs(5));
 
     let clock = StatusBlock::new()
         .name("internet")
         .command(Arc::new(blocks::clock))
-        .poll_interval(Duration::from_secs(15));
+        .poll_interval(Duration::from_secs(5));
 
-    vec![
-        ip, mail, packages, weather, moon, volume, power, internet, clock,
-    ]
+    vec![ip, mail, packages, weather, moon, volume, power, internet, clock]
 }
