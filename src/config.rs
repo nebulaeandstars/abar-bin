@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use std::time::Duration;
 
 use abar::{StatusBar, StatusBlock};
@@ -14,7 +13,7 @@ pub const NUM_THREADS: u8 = 1;
 pub fn bar() -> StatusBar
 {
     // All fields are optional; default refresh rate is 1hz
-    StatusBar::new()
+    StatusBar::default()
         .blocks(blocks())
         .refresh_rate(Duration::from_millis(500))
         .delimiter(" | ")
@@ -27,49 +26,49 @@ fn blocks() -> Vec<StatusBlock>
 {
     use crate::utils::run;
 
-    let ip = StatusBlock::new()
+    let ip = StatusBlock::default()
         .name("ip")
-        .command(Arc::new(|| run("ip route get 1.2.3.4 | awk '{print $7}'")));
+        .command(|| run("ip route get 1.2.3.4 | awk '{print $7}'"));
 
-    let mail = StatusBlock::new()
+    let mail = StatusBlock::default()
         .name("mail")
-        .command(Arc::new(|| run("sb-mailbox")))
+        .command(|| run("sb-mailbox"))
         .poll_interval(Duration::from_secs(1));
 
-    let packages = StatusBlock::new()
+    let packages = StatusBlock::default()
         .name("packages")
-        .command(Arc::new(|| run("sb-pacpackages")))
+        .command(|| run("sb-pacpackages"))
         .poll_interval(Duration::from_secs(1));
 
-    let weather = StatusBlock::new()
+    let weather = StatusBlock::default()
         .name("weather")
-        .command(Arc::new(blocks::weather))
+        .command(blocks::weather)
         .poll_interval(Duration::from_secs(60 * 60))
         .update_in_background(true);
 
-    let moon = StatusBlock::new()
+    let moon = StatusBlock::default()
         .name("moon")
-        .command(Arc::new(blocks::moon))
+        .command(blocks::moon)
         .poll_interval(Duration::from_secs(60 * 60));
 
-    let volume = StatusBlock::new()
+    let volume = StatusBlock::default()
         .name("volume")
-        .command(Arc::new(|| run("sb-volume")))
+        .command(|| run("sb-volume"))
         .poll_interval(Duration::from_millis(500));
 
-    let power = StatusBlock::new()
+    let power = StatusBlock::default()
         .name("power")
-        .command(Arc::new(|| run("sb-battery")))
+        .command(|| run("sb-battery"))
         .poll_interval(Duration::from_secs(10));
 
-    let internet = StatusBlock::new()
+    let internet = StatusBlock::default()
         .name("internet")
-        .command(Arc::new(|| run("sb-internet")))
+        .command(|| run("sb-internet"))
         .poll_interval(Duration::from_secs(5));
 
-    let clock = StatusBlock::new()
+    let clock = StatusBlock::default()
         .name("internet")
-        .command(Arc::new(blocks::clock))
+        .command(blocks::clock)
         .poll_interval(Duration::from_secs(5));
 
     vec![ip, mail, packages, weather, moon, volume, power, internet, clock]
