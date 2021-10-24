@@ -40,6 +40,11 @@ fn blocks() -> Vec<StatusBlock>
         .command(|| run("sb-pacpackages"))
         .poll_interval(Duration::from_secs(1));
 
+    let keyboard = StatusBlock::default()
+        .name("keyboard")
+        .command(blocks::keyboard)
+        .poll_interval(Duration::from_millis(500));
+
     let weather = StatusBlock::default()
         .name("weather")
         .command(blocks::weather)
@@ -71,5 +76,8 @@ fn blocks() -> Vec<StatusBlock>
         .command(blocks::clock)
         .poll_interval(Duration::from_secs(5));
 
-    vec![ip, mail, packages, weather, moon, volume, power, internet, clock]
+    vec![
+        ip, mail, packages, keyboard, weather, moon, volume, power, internet,
+        clock,
+    ]
 }
