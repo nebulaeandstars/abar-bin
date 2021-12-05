@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use abar::{StatusBar, StatusBlock};
+use abar::{StatusBar, StatusBarBuilder, StatusBlock, StatusBlockBuilder};
 
 use crate::blocks;
 
@@ -8,73 +8,80 @@ use crate::blocks;
 /// change this, but bumping it up can cause a noticable difference in the
 /// initial load time if you have a lot of blocks. Setting it to 1 will disable
 /// concurrency.
-pub const NUM_THREADS: u8 = 1;
+pub const NUM_THREADS: usize = 2;
 
-pub fn bar() -> StatusBar
-{
+pub fn bar() -> StatusBar {
     // All fields are optional; default refresh rate is 1hz
-    StatusBar::default()
+    StatusBarBuilder::default()
         .blocks(blocks())
-        .refresh_rate(Duration::from_millis(500))
         .delimiter(" | ")
         .left_buffer(" | ")
         .right_buffer(" | ")
         .hide_empty_modules(true)
+        .build()
 }
 
-fn blocks() -> Vec<StatusBlock>
-{
+fn blocks() -> Vec<StatusBlock> {
     use crate::utils::run;
 
-    let ip = StatusBlock::default()
+    let ip = StatusBlockBuilder::default()
         .name("ip")
-        .command(|| run("ip route get 1.2.3.4 | awk '{print $7}'"));
+        .function(|| run("ip route get 1.2.3.4 | awk '{print $7}'"))
+        .build();
 
-    let mail = StatusBlock::default()
+    let mail = StatusBlockBuilder::default()
         .name("mail")
-        .command(|| run("sb-mailbox"))
-        .poll_interval(Duration::from_secs(1));
+        .function(|| run("sb-mailbox"))
+        .update_interval(Duration::from_secs(1))
+        .build();
 
-    let packages = StatusBlock::default()
+    let packages = StatusBlockBuilder::default()
         .name("packages")
-        .command(|| run("sb-pacpackages"))
-        .poll_interval(Duration::from_secs(1));
+        .function(|| run("sb-pacpackages"))
+        .update_interval(Duration::from_secs(10))
+        .build();
 
-    let keyboard = StatusBlock::default()
+    let keyboard = StatusBlockBuilder::default()
         .name("keyboard")
-        .command(blocks::keyboard)
-        .poll_interval(Duration::from_millis(500));
+        .function(blocks::keyboard)
+        .update_interval(Duration::from_millis(500))
+        .build();
 
-    let weather = StatusBlock::default()
+    let weather = StatusBlockBuilder::default()
         .name("weather")
-        .command(blocks::weather)
-        .poll_interval(Duration::from_secs(60 * 60))
-        .update_in_background(true);
+        .function(blocks::weather)
+        .update_interval(Duration::from_secs(60 * 60))
+        .build();
 
-    let moon = StatusBlock::default()
+    let moon = StatusBlockBuilder::default()
         .name("moon")
-        .command(blocks::moon)
-        .poll_interval(Duration::from_secs(60 * 60));
+        .function(blocks::moon)
+        .update_interval(Duration::from_secs(60 * 60))
+        .build();
 
-    let volume = StatusBlock::default()
+    let volume = StatusBlockBuilder::default()
         .name("volume")
-        .command(|| run("sb-volume"))
-        .poll_interval(Duration::from_millis(500));
+        .function(|| run("sb-volume"))
+        .update_interval(Duration::from_millis(100))
+        .build();
 
-    let power = StatusBlock::default()
+    let power = StatusBlockBuilder::default()
         .name("power")
-        .command(|| run("sb-battery"))
-        .poll_interval(Duration::from_secs(10));
+        .function(|| run("sb-battery"))
+        .update_interval(Duration::from_secs(5))
+        .build();
 
-    let internet = StatusBlock::default()
+    let internet = StatusBlockBuilder::default()
         .name("internet")
-        .command(|| run("sb-internet"))
-        .poll_interval(Duration::from_secs(5));
+        .function(|| run("sb-internet"))
+        .update_interval(Duration::from_secs(5))
+        .build();
 
-    let clock = StatusBlock::default()
-        .name("internet")
-        .command(blocks::clock)
-        .poll_interval(Duration::from_secs(5));
+    let clock = StatusBlockBuilder::default()
+        .name("clock")
+        .function(blocks::clock)
+        .update_interval(Duration::from_secs(5))
+        .build();
 
     vec![
         ip, mail, packages, keyboard, weather, moon, volume, power, internet,

@@ -50,8 +50,7 @@ fn location() -> String {
 
 /// Get the current weather report from wttr.in in a given format
 fn get_wttr_report(
-    location: &str,
-    format: &str,
+    location: &str, format: &str,
 ) -> Result<serde_json::Value, serde_json::Error> {
     let weather = Command::new("curl")
         .arg("-sf")
