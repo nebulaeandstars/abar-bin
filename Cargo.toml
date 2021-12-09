@@ -1,6 +1,6 @@
 [package]
-name = "abar-bin"
-version = "0.1.0"
+name = "abar"
+version = "0.2.0"
 authors = ["Laura Powles <laura@laurapowles.com>"]
 edition = "2021"
 

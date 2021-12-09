@@ -16,7 +16,7 @@ fn main() {
     let monitor = Monitor::new(monitor_tx.clone(), 2227);
     thread::spawn(move || monitor.run());
 
-    let threadpool = ThreadPool::new(2, monitor_tx);
+    let threadpool = ThreadPool::new(config::NUM_THREADS, monitor_tx);
     let statusbar = config::bar();
 
     statusbar.attach_threadpool(&threadpool);
@@ -52,7 +52,15 @@ fn main() {
 
         match command {
             Some(Command::Update(names)) => statusbar.update(&names),
-            Some(Command::Shutdown) => break,
+            Some(Command::Shutdown) => {
+                std::process::Command::new("xsetroot")
+                    .arg("-name")
+                    .arg("")
+                    .output()
+                    .unwrap();
+
+                break;
+            },
             _ => (),
         }
     }
