@@ -62,7 +62,6 @@ fn blocks() -> Vec<StatusBlock> {
     let volume = StatusBlockBuilder::default()
         .name("volume")
         .function(|| run("sb-volume"))
-        .update_interval(Duration::from_millis(100))
         .build();
 
     let power = StatusBlockBuilder::default()
