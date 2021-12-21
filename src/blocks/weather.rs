@@ -45,7 +45,8 @@ fn get_temp_string(report: &serde_json::Value) -> String {
 
 /// Returns the user's current location.
 fn location() -> String {
-    "Canberra".to_string() // TODO: Make this abstract
+    // "Canberra".to_string()
+    String::from("")
 }
 
 /// Get the current weather report from wttr.in in a given format
@@ -54,7 +55,8 @@ fn get_wttr_report(
 ) -> Result<serde_json::Value, serde_json::Error> {
     let weather = Command::new("curl")
         .arg("-sf")
-        .arg(format!("wttr.in/{}?format={}", location, format))
+        // .arg(format!("wttr.in/{}?format={}", location, format))
+        .arg(format!("wttr.in/?format={}", format))
         .output()
         .expect("Could not get weather")
         .stdout;

@@ -8,7 +8,7 @@ use crate::blocks;
 /// change this, but bumping it up can cause a noticable difference in the
 /// initial load time if you have a lot of blocks. Setting it to 1 will disable
 /// concurrency.
-pub const NUM_THREADS: usize = 2;
+pub const NUM_WORKERS: usize = 2;
 
 pub fn bar() -> StatusBar {
     // All fields are optional; default refresh rate is 1hz
@@ -22,7 +22,7 @@ pub fn bar() -> StatusBar {
 }
 
 fn blocks() -> Vec<StatusBlock> {
-    use crate::utils::run;
+    use abar::utils::run;
 
     let ip = StatusBlockBuilder::default()
         .name("ip")
