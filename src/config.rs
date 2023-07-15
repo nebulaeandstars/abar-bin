@@ -85,6 +85,7 @@ fn blocks() -> Vec<StatusBlock> {
         .build();
 
     vec![
-        ip, mail, packages, keyboard, weather, moon, volume, power, internet, clock,
+        ip, mail, packages, keyboard, weather, moon, volume, power, internet,
+        clock,
     ]
 }
