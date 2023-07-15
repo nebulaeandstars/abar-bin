@@ -27,6 +27,7 @@ fn blocks() -> Vec<StatusBlock> {
     let ip = StatusBlockBuilder::default()
         .name("ip")
         .function(|| run("ip route get 1.2.3.4 | awk '{print $7}'"))
+        .update_interval(Duration::from_secs(60 * 60))
         .build();
 
     let mail = StatusBlockBuilder::default()
@@ -62,6 +63,7 @@ fn blocks() -> Vec<StatusBlock> {
     let volume = StatusBlockBuilder::default()
         .name("volume")
         .function(|| run("sb-volume"))
+        .update_interval(Duration::from_secs(30))
         .build();
 
     let power = StatusBlockBuilder::default()
@@ -83,7 +85,6 @@ fn blocks() -> Vec<StatusBlock> {
         .build();
 
     vec![
-        ip, mail, packages, keyboard, weather, moon, volume, power, internet,
-        clock,
+        ip, mail, packages, keyboard, weather, moon, volume, power, internet, clock,
     ]
 }

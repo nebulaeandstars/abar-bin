@@ -1,8 +1,12 @@
 [package]
-name = "abar"
+name = "abar-bin"
 version = "0.2.0"
 authors = ["Laura Powles <laura@laurapowles.com>"]
 edition = "2021"
+
+[[bin]]
+name = "abar"
+path = "src/main.rs"
 
 [dependencies]
 abar = "*"
