@@ -12,7 +12,7 @@ const CHANNEL_CAPACITY: usize = 100;
 fn draw_bar(bar: &str) {
     std::process::Command::new("xsetroot")
         .arg("-name")
-        .arg(&bar)
+        .arg(bar)
         .output()
         .unwrap();
 }

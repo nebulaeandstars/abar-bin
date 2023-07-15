@@ -17,7 +17,7 @@ use std::process::Command;
 
 pub fn weather() -> String {
     match get_wttr_report(&location(), "j1") {
-        Ok(report) => format!("{temp}", temp = get_temp_string(&report),),
+        Ok(report) => get_temp_string(&report).to_string(),
         Err(_) => String::new(),
     }
 }
@@ -50,9 +50,7 @@ fn location() -> String {
 }
 
 /// Get the current weather report from wttr.in in a given format
-fn get_wttr_report(
-    location: &str, format: &str,
-) -> Result<serde_json::Value, serde_json::Error> {
+fn get_wttr_report(_location: &str, format: &str) -> Result<serde_json::Value, serde_json::Error> {
     let weather = Command::new("curl")
         .arg("-sf")
         // .arg(format!("wttr.in/{}?format={}", location, format))
